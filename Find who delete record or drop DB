@@ -40,3 +40,52 @@ AND
     GO   
     SELECT SUSER_SNAME(0x01050000000000051500000039BCB715A55DCF5BE3190CD9E9030000)
 
+-----------------------------------------++++++++++++----------------------------------------------------------------------------------------------------------
+
+++--Finding a user who ran a DROP statement
+    
+    	--Step 1
+	--Run the below script to display all logs which have been logged under DROPOBJ statement.
+	USE ReadingDBLog
+             GO
+    SELECT 
+     Operation,
+     [Transaction Id],
+     [Transaction SID],
+     [Transaction Name],
+     [Begin Time],
+     [SPID],
+    Description
+    FROM fn_dblog (NULL, NULL)
+    WHERE [Transaction Name] = 'DROPOBJ'
+    GO
+
+  ---Step 2
+
+    Now we can pass the transaction SID into system function SUSER_SNAME () to get the exact user name.
+	SELECT SUSER_SNAME(0x0105000000000005150000009F11BA296C79F97398D0CF19E8030000) 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
