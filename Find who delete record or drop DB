@@ -1,0 +1,42 @@
+ --Step 1
+Run the below command to get info about all deleted transactions.
+   USE DBName
+   GO
+     
+ SELECT 
+    [Transaction ID],
+    Operation,
+    Context,
+    AllocUnitName
+    FROM 
+    fn_dblog(NULL, NULL) 
+   WHERE 
+    Operation = 'LOP_DELETE_ROWS'
+
+	--Step 2
+	--We found the transaction ID from the above command which we will use in the below command to get the transaction SID of the user who has deleted the data.
+	
+	USE DBName
+        GO
+SELECT
+    Operation,
+    [Transaction ID],
+    [Begin Time],
+    [Transaction Name],
+    [Transaction SID]
+FROM
+    fn_dblog(NULL, NULL)
+WHERE
+    [Transaction ID] = '0000:000003d6'   --Copy and paste here the Traansaction ID from the above command
+AND
+    [Operation] = 'LOP_BEGIN_XACT'    ---Always use this  'LOP_BEGIN_XACT' 
+
+
+	--Step 3
+	--Now we will figure out who ran the DELETE command. We will copy the hexadecimal value from the transaction SID column
+  for the DELETE transaction and then pass that value into the SUSER_SNAME () function.
+	
+  USE MASTER
+    GO   
+    SELECT SUSER_SNAME(0x01050000000000051500000039BCB715A55DCF5BE3190CD9E9030000)
+
