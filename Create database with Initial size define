@@ -1,0 +1,17 @@
+CREATE DATABASE your_database_name
+ON PRIMARY
+(
+   NAME = your_database_name_data,
+   FILENAME = 'd:\Path\To\Data\database_name_data.mdf',
+   SIZE = 100MB,
+   MAXSIZE = UNLIMITED,
+   FILEGROWTH = 10MB
+)
+LOG ON
+(
+   NAME = your_database_name_log,
+   FILENAME = 'C:\Path\To\Log\your_database_name_log.ldf',
+   SIZE = 50MB,
+   MAXSIZE = 2GB,
+   FILEGROWTH = 5MB
+);
